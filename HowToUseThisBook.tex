@@ -1,0 +1,43 @@
+\part{How to use this book}
+\chapter{Getting started}
+This book is targeted to the novice SSIS developer. You aren't looking to spend months working on the great SSIS project that will have white papers written about it - you just want to get package finished so you can go on to the next fire.
+
+\section{Cookbook approach}
+TODO: determine which I like better
+
+Is this a circle? (show square)?
+No? Well, is this a circle (show square overlaid with diamond)?
+Still no? Is this a circle yet (show square rotated 8 times)?
+We can at least agree this is a circle.
+The trick to development then, is to be able to decompose problems you can’t solve into a problem you can solve. The goal of this book is provide you with enough “squares” to tackle your SSIS problems.
+
+When you look at a house, whether it’s a one-room shack or a palatial mansion, the same hammer, nails and 2x4's were used to create it-one simply has applied the pattern many more times over. It’s the intention that after working through this, you’ll be able to break your problem down into components and apply them to your project. 
+
+It should not be necessary to read this book from cover to cover. Instead, I attempt to put all the basic tools onto your toolbelt and then in the actual recipe section, we make liberal use of them.
+
+
+\section{Biml}
+The Business Intelligence Markup Language, Biml, describes the platform for business intelligence. Here, we're going to use it to describe the constructs we're going to create. I find that once you have built a few packages by clicking and dragging, and clicking through more and more panes and panel and context sensitive menus, SSIS development can really take a toll on your mouse and ability to get work done. 
+
+The solution, is Biml. It is a free add on for Visual Studio/BIDS/SSDT that is rolled into the \href{http://bidshelper.codeplex.com/}{BIDS Helper} project on CodePlex.com. If you're doing SSIS, SSRS or SSAS development, BIDS Helper adds the 10\% of needed functionality that didn't make it into the shipped product but really would have helped you, the developer. 
+
+TODO: include product plug for mist? If you think you love Biml via Visual Vtudio, then the functionality that is only available through Mist will blow your mind.
+
+If you're in a tightly controlled environment, you can still use BIDS Helper. There is no-install version which should work with the most restrictive group policies. 
+
+All the solutions in this book will contain the Biml required to generate the same object. This allows you to reproduce the {\em exact} same SSIS package without the hassle of dealing with the nuances of each task or component in the designer.
+
+The following is the Hello World equivalent in Biml. The engine translates that XML into an SSIS package that is identical to one created by selecting ``New SSIS Package''
+
+\verbatiminput{Expressions/HelloWorld.biml}
+
+If you're unfamiliar with tag based languages, like XML or HTML, you define a tag with angle brackets and close it with the same tag but with a forward slash, thus \textless Entity\textgreater \ldots \textless/ Entity \textgreater If there is nothing between the tags, you can simply specify it as \textless Entity /\textgreater
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,91 @@
+\chapter{Date and time}
+We often need to generate a date string in various formats. A common challenge encountered is getting that format just right.
+Unless you have reasons to the contrary, using a format of year, month and date, all numeric, results in a sortable date which 
+makes it easier to find specific files in large collections.
+
+\paragraph{Getting a date}
+
+There are different mechanisms for acquiring a date. A popular approach is to use \verb+GETDATE()+ \href{http://msdn.microsoft.com/en-us/library/ms139875.aspx}{GETDATE(SSIS Expression)}
+
+It's built into the SSIS Expression language but I find that the System scoped variable, \verb+StartTime+ provides a better reference point as it is evaulated only when the package begins. This is in contrast to GETDATE which is evaluated each time it is inspected. For a long running package, the drift in values may not be acceptable. It might also be \begin{em}exactly\end{em} what is desired. Assume we have a Derived Column transformation in a package which adds a column named InsertDate into our buffer. 
+
+Consider the following two queries, which would more correctly describe the data loaded from today's data load?
+
+Quote
+\begin{quote}
+SELECT 
+    T.*
+    
+FROM 
+    MyTable AS T
+
+WHERE 
+    T.InsertDate = '2015-01-17T12:24:48.123'; 
+\end{quote}
+
+VerbatimInput method
+
+\VerbatimInput{Expressions/InsertDate.Scan.sql}
+
+verbatiminput method
+
+\verbatiminput{Expressions/InsertDate.Scan.sql}
+
+\section{YYYY}
+This expression defines how to get a 4 digit year. This is sometimes referred to as CCYY (century, century, year, year). The expression simply applies the \verb|YEAR()| function to a variable which returns an integer value. 
+
+\verbatiminput{Expressions/YYYY.exp}
+
+To make use of it, it's been my experience that we will be using this value for string concatenation instead of mathematical operations: addition, subtraction, etc. Therefore, we explicitly cast the result of the \verb|YEAR()| as a unicode string, \verb|DT_WSTR| of length 4
+
+Biml
+\verbatiminput{Expressions/YYYY.biml}
+
+
+\section{YY}
+This expression defines how to get a 2 digit year. We apply the \verb|RIGHT()| function and get the last 2 digits. There is no need to explicitly cast to a string as it is handled by the function call.
+
+\verbatiminput{Expressions/YY.exp}
+
+Biml
+\verbatiminput{Expressions/YY.biml}
+
+\section{MM}
+This expression defines how to get a 2 digit month such that March is 03 instead of 3. The leading zero is important for character based sorting. We will use the \verb|MONTH()| function which returns an integer from 1 to 12. We convert that to a string, prepend a zero to it and then shear off the last two characters using the \verb|RIGHT()| function. The trimming is only required for October, November, and December but the logic is cleaner to unconditionally apply \verb|RIGHT()|.
+
+\verbatiminput{Expressions/MM.exp}
+
+Biml
+\verbatiminput{Expressions/MM.biml}
+
+\section{DD}
+This expression defines how to get a 2 digit day such that instead of 9 we get 09. It is the same process used in MM except with a call to  \verb|DAY()|. We continue to prepend a zero to our value and shear off the last two digits.
+
+\verbatiminput{Expressions/DD.exp}
+
+Biml
+\verbatiminput{Expressions/DD.biml}
+
+\section{YYYY-MM-DD}
+The most common format is a year, month and day separated by a dash. This recipe uses what we've build in the YYYY, MM and DD sections.
+
+
+verbatimimport 
+
+\verbatiminput{Expressions/YYYY-MM-DD.exp}
+
+
+Biml
+\verbatiminput{Expressions/YYYY-MM-DD.biml}
+
+
+
+
+\section{YYYYMMDD}
+A more compact version of the year month date string is represented below. 
+
+\verbatiminput{Expressions/YYYYMMDD.exp}
+
+
+Biml
+\verbatiminput{Expressions/YYYYMMDD.biml}

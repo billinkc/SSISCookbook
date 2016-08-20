@@ -1,0 +1,54 @@
+\documentclass[a4paper,12pt]{book}
+% \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{alltt}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+% http://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+\usepackage{listings}
+\usepackage{textcomp}
+
+% tex.stackexchange.com/questions/166790/how-can-i-get-straight-double-quotes-in-listings
+\usepackage[T1]{fontenc}
+
+\hypersetup{colorlinks=true}
+
+\begin{document}
+
+% http://stackoverflow.com/questions/432349/how-do-you-display-straight-quotes-instead-of-curly-quotes-when-using-latexs-l
+% 
+% \lstset{basicstyle=\ttfamily}
+
+% upquote results in unknown package errors
+% TODO: attempt this on a full tex installation
+\lstset{upquote=true}
+
+\author{Bill Fellows}
+\title{SSIS for the hurried developer}
+\date{\today}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+
+% \VerbatimInput{./TeX_files/YYYMMDD.biml}
+% \VerbatimInput{SampleText.txt}
+% \VerbatimInput{./TeX_files/SampleText.txt}
+\include{HowToUseThisBook}
+\include{./Expressions/Expressions}
+\include{./Looping}
+\include{./Email}
+\include{./LegalInfo}
+
+%\include{./TeX_files/chapter01}
+%\include{./TeX_files/chapter02}
+
+% \VerbatimInput{./YYYYMMDD.biml}
+
+\backmatter
+% bibliography, glossary and index would go here.
+
+\end{document}

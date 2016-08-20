@@ -1,0 +1,41 @@
+\contentsline {part}{I\hspace {1em}How to use this book}{1}{part.1}
+\contentsline {chapter}{\numberline {1}Getting started}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Cookbook approach}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}Biml}{3}{section.1.2}
+\contentsline {part}{II\hspace {1em}Expressions}{5}{part.2}
+\contentsline {chapter}{\numberline {2}Date and time}{9}{chapter.2}
+\contentsline {paragraph}{Getting a date}{9}{section*.2}
+\contentsline {section}{\numberline {2.1}YYYY}{10}{section.2.1}
+\contentsline {section}{\numberline {2.2}YY}{10}{section.2.2}
+\contentsline {section}{\numberline {2.3}MM}{11}{section.2.3}
+\contentsline {section}{\numberline {2.4}DD}{11}{section.2.4}
+\contentsline {section}{\numberline {2.5}YYYY-MM-DD}{12}{section.2.5}
+\contentsline {section}{\numberline {2.6}YYYYMMDD}{12}{section.2.6}
+\contentsline {chapter}{\numberline {3}File names}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}Get file extension}{13}{section.3.1}
+\contentsline {section}{\numberline {3.2}Get file name}{13}{section.3.2}
+\contentsline {section}{\numberline {3.3}Get file path}{14}{section.3.3}
+\contentsline {section}{\numberline {3.4}Get file name without extension}{14}{section.3.4}
+\contentsline {chapter}{\numberline {4}Padding strings}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}Left pad}{15}{section.4.1}
+\contentsline {section}{\numberline {4.2}Right pad}{15}{section.4.2}
+\contentsline {section}{\numberline {4.3}Trim to null}{15}{section.4.3}
+\contentsline {part}{III\hspace {1em}Looping}{17}{part.3}
+\contentsline {chapter}{\numberline {5}Foreach Enumerator}{19}{chapter.5}
+\contentsline {section}{\numberline {5.1}Process all the files}{19}{section.5.1}
+\contentsline {section}{\numberline {5.2}Shred a recordset}{19}{section.5.2}
+\contentsline {section}{\numberline {5.3}Iterate a resultset}{19}{section.5.3}
+\contentsline {part}{IV\hspace {1em}Email}{21}{part.4}
+\contentsline {chapter}{\numberline {6}Send mail task}{23}{chapter.6}
+\contentsline {section}{\numberline {6.1}Send an email}{23}{section.6.1}
+\contentsline {section}{\numberline {6.2}Send an attachment}{23}{section.6.2}
+\contentsline {section}{\numberline {6.3}Send the results of a query}{23}{section.6.3}
+\contentsline {section}{\numberline {6.4}Send an HTML formatted message}{23}{section.6.4}
+\contentsline {section}{\numberline {6.5}Send dynamic text}{23}{section.6.5}
+\contentsline {chapter}{\numberline {7}sp send dbmail}{25}{chapter.7}
+\contentsline {section}{\numberline {7.1}Send an email}{25}{section.7.1}
+\contentsline {section}{\numberline {7.2}Send an attachment}{25}{section.7.2}
+\contentsline {section}{\numberline {7.3}Send the results of a query}{25}{section.7.3}
+\contentsline {section}{\numberline {7.4}Send an HTML formatted message}{25}{section.7.4}
+\contentsline {section}{\numberline {7.5}Send dynamic text}{25}{section.7.5}
+\contentsline {chapter}{\numberline {8}Dislcaimers}{27}{chapter.8}

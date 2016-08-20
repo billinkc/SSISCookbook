@@ -1,0 +1,2 @@
+RIGHT(@[User::CurrentFileName], 
+    FINDSTRING(REVERSE(@[User::CurrentFileName]), "\\", 1) -1)

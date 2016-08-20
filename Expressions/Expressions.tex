@@ -1,0 +1,164 @@
+\part{Expressions}
+\label{part:Expressions}
+Expressions are the difference between a hard coded package and one that gracefully responds to change. Most every object
+in the SSIS world supports the concept of expressions. An expression is just that, it is code that, when evaluated, expresses a new value. It can be important to note that expressions are evaluated each time they are used. This might be a good behaviour if you want to capture the exact moment a row is inserted into a table. It might not be desirable if your output file name changes 
+every second.
+
+
+\chapter{Date and time}
+\label{chap:Date and time}
+We often need to generate a date string in various formats. A common challenge encountered is getting that format just right.
+Unless you have reasons to the contrary, using a format of year, month and date, all numeric, results in a sortable date which 
+makes it easier to find specific files in large collections.
+
+\paragraph{Getting a date}
+\label{par:Getting a date}
+There are different mechanisms for acquiring a date. A popular approach is to use \verb+GETDATE()+ \href{http://msdn.microsoft.com/en-us/library/ms139875.aspx}{GETDATE(SSIS Expression)}
+
+It's built into the SSIS Expression language but I find that the System scoped variable, \verb+StartTime+ provides a better reference point as it is evaluated only when the package begins. This is in contrast to GETDATE which is evaluated each time it is inspected. For a long running package, the drift in values may not be acceptable. It might also be \begin{em}exactly\end{em} what is desired. Assume we have a Derived Column transformation in a package which adds a column named InsertDate into our buffer. 
+
+Consider the following two queries, which would more correctly describe the data loaded from today's load?
+
+Do you look for all the rows loaded at a specific point in time?
+\begin{lstlisting}[language=SQL]
+SELECT 
+    T.*
+FROM 
+    MyTable AS T
+WHERE 
+    T.InsertDate = '2015-01-17T12:24:48.123'; 
+\end{lstlisting}
+
+Or do you look for all the rows loaded between an interval?
+\lstinputlisting[language=SQL]{Expressions/InsertDate.Scan.sql}
+	
+The ``right'' answer is neither---we should instead track data loads through an alternate means that supports tracking of concurrent loads.
+
+
+\section{YYYY}
+\label{sec:YYYY}
+This expression defines how to get a 4 digit year. This is sometimes referred to as CCYY (century, century, year, year). The expression simply applies the \verb|YEAR()| function to a variable which returns an integer value. 
+
+\lstinputlisting[language=SSIS]{Expressions/YYYY.exp}
+
+To make use of it, it's been my experience that we will be using this value for string concatenation instead of mathematical operations: addition, subtraction, etc. Therefore, we explicitly cast the result of the \verb|YEAR()| as a unicode string, \verb|DT_WSTR| of length 4
+
+The following snipped expresses the Biml required to generate an SSIS variable which uses the above expression.
+\lstinputlisting[language=XML]{Expressions/YYYY.biml}
+
+
+\section{YY}
+\label{sec:YY}
+This expression defines how to get a 2 digit year. We apply the \verb|RIGHT()| function and get the last 2 digits. There is no need to explicitly cast to a string as it is handled by the function call.
+
+\verbatiminput{Expressions/YY.exp}
+
+Biml
+\verbatiminput{Expressions/YY.biml}
+
+\section{MM}
+\label{sec:MM}
+This expression defines how to get a 2 digit month such that March is 03 instead of 3. The leading zero is important for character based sorting. We will use the \verb|MONTH()| function which returns an integer from 1 to 12. We convert that to a string, prepend a zero to it and then shear off the last two characters using the \verb|RIGHT()| function. The trimming is only required for October, November, and December but the logic is cleaner to unconditionally apply \verb|RIGHT()|.
+
+\verbatiminput{Expressions/MM.exp}
+
+Biml
+\verbatiminput{Expressions/MM.biml}
+
+\section{DD}
+\label{sec:DD}
+This expression defines how to get a 2 digit day such that instead of 9 we get 09. It is the same process used in MM except with a call to  \verb|DAY()|. We continue to prepend a zero to our value and shear off the last two digits.
+
+\verbatiminput{Expressions/DD.exp}
+
+Biml
+\verbatiminput{Expressions/DD.biml}
+
+\section{YYYY-MM-DD}
+\label{sec:YYYY-MM-DD}
+The most common format is a year, month and day separated by a dash. This recipe uses what we've built in sections \ref{sec:YYYY}, \ref{sec:MM} and \ref{sec:DD}.
+
+
+verbatimimport 
+
+\verbatiminput{Expressions/YYYY-MM-DD.exp}
+
+
+Biml
+\verbatiminput{Expressions/YYYY-MM-DD.biml}
+
+
+\section{YYYYMMDD}
+\label{sec:YYYYMMDD}
+A more compact version of the year, month, day string is represented below. 
+
+\verbatiminput{Expressions/YYYYMMDD.exp}
+
+
+Biml
+\verbatiminput{Expressions/YYYYMMDD.biml}
+
+
+\chapter{File names}
+\label{chap:File names}
+File name operations are generally better served by using the .NET System.IO library as it offers robust error handling, file system translations, etc. For general use however, an expression can get the job done.
+
+The following expressions assume we have a variable named @[User::CurrentFileName] define and populated with C:\textbackslash SSISData\textbackslash Client\textbackslash Input\textbackslash DailySales.csv
+
+\section{Get file extension}
+\label{sec:Get file extension}
+To get the file extension, we'll three functions: \verb|RIGHT()|, \verb|FINDSTRING()|, and \verb|REVERSE()|. Working from the innermost parenthesis, we'll reverse the value for our string. We do this so that the first period we find {\em should} be the position where the file extension begins. This clearly doesn't work for cases where the file has no extension or where the extension is not the last portion of the filename {\em e.g. MyFile.txt.2015-02-01}. 
+
+Knowing the position where the file extension begins, we then pass that starting point for the call to \verb|RIGHT()|.
+
+\verbatiminput{Expressions/FileExtension.exp}
+
+This expression will return \verb|.csv|. If you want only \verb|csv|, then you will need to subtract one from the position passed to the \verb|RIGHT()| call. Thus, the final three characters in the above expression \verb|1))| become \verb|1) -1)|.
+
+
+\section{Get file name}
+\label{sec:Get file name}
+To get the file name without the path, \verb|DailySales.csv| we'll apply the same concept as in section \ref{sec:Get file extension}. However, instead of searching for \symbol{42}, this time we'll look for the \textbackslash. 
+
+\verbatiminput{Expressions/FileName.exp}
+
+The double backslash, \textbackslash \textbackslash , in the above formula is not a typo. The backslash character is used to escape control codes in strings and in this case, it escapes itself. 
+
+\section{Get file path}
+\label{sec:Get file path}
+To get the path \verb|C:\SSISData\Client\Input\|, we need to keep everything to the left of the final path separator, the \textbackslash. The 2005 release of SSIS, did not include a \verb|LEFT()| expression. We had \verb|RIGHT()| and we had \verb|SUBSTRING()|. It was argued that \verb|LEFT| was really just a case of SUBSTRING with a starting position of $1$, but the convenience and inconsistent behaviour when compared to other languages lead to the introduction of \verb|LEFT| with 2008
+
+TODO: verify release introduction
+
+Our expression becomes
+
+\verbatiminput{Expressions/FilePath.exp}
+
+
+The 2008 and forward releases of SSIS allow for the use of the slightly more compact expression
+
+\verbatiminput{Expressions/FilePath2008.exp}
+
+The similar caveat exists here as in \ref{sec:Get file extension} -- this generates the file path with the trailing backslash intact, {\em i.e.} C:\textbackslash SSISData\textbackslash Client\textbackslash Input\textbackslash . If you need C:\textbackslash SSISData\textbackslash Client\textbackslash Input, then you will need to subtract one from the final argument to SUBSTRING/LEFT {\em i.e.} \verb|)-1)|
+
+
+\section{Get file name without extension}
+\label{sec:Get file name without extension}
+There are different recipes you can use to get the base file name, \verb|DailySales|, but they generally take the form of eiter perform substring operations to trim the path and extension or you can use the \verb|REPLACE()| function to strip out the known elements.
+
+\chapter{Padding strings}
+\label{chap:Padding strings}
+A pad operation fills out a string with a given pattern. The reverse of padding a string would be trimming.
+
+\section{Left pad}
+\label{sec:Left pad}
+In the U.S., a postal code is a five digit string. Tools like Excel interpret that data as numeric and thus 00532 becomes 532. Calling a left pad function, we could get our leading zeros back. 
+
+\section{Right pad}
+\label{sec:Right pad}
+A right pad operation may be needed if you were providing text input for printing a check. Assume the issued amount is \$100.30. The trailing zero is not needed from a mathematics perspective so the numeric value written would be \$100.3 That's going to look odd.
+
+\section{Trim to null}
+\label{sec:Trim to null}
+This expression only works in the context of a Data Flow. An SSIS Variable cannot be set to NULL. If you're dealing with fixed width files, that file transport mechanism does not have the ability to express that something lacks a value. There is no NULL in that column, it will simply be the space character. A Derived Column can be used with the following expression to ensure we make an string filled with whitespace is turned into a NULL for storage.
+

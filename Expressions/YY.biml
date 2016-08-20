@@ -1,0 +1,5 @@
+<Variable 
+    Name="YY" 
+    DataType="String"
+    Namespace="Cookbook"
+    EvaluateAsExpression="true">RIGHT(YEAR(@[System::StartTime]),2)</Variable>

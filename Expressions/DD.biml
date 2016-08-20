@@ -1,0 +1,5 @@
+<Variable 
+    Name="DD" 
+    DataType="String"
+    Namespace="Cookbook"
+    EvaluateAsExpression="true">RIGHT("0" + (DT_WSTR, 2) DAY(@[System::StartTime]), 2)</Variable>

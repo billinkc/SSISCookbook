@@ -1,0 +1,6 @@
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package ConstraintMode="Linear" Name="HelloWorld">
+        </Package>
+    </Packages>
+</Biml>

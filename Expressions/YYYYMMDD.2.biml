@@ -1,0 +1,7 @@
+<Variable 
+    Name="YYYYMMDD" 
+    DataType="String"
+    Namespace="Cookbook"
+    EvaluateAsExpression="true">(DT_WSTR, 4)YEAR(@[System::StartTime]) + RIGHT("0" + (DT_WSTR, 2)MONTH(@[System::StartTime]), 2) + RIGHT("0" + (DT_WSTR, 2) DAY(@[System::StartTime]), 2)</Variable>
+
+

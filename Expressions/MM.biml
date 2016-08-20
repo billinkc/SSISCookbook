@@ -1,0 +1,5 @@
+<Variable 
+    Name="MM" 
+    DataType="String"
+    Namespace="Cookbook"
+    EvaluateAsExpression="true">RIGHT("0" + (DT_WSTR, 2) MONTH(@[System::StartTime]), 2)</Variable>

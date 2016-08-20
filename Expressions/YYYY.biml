@@ -1,0 +1,7 @@
+<Variable 
+    Name="YYYY" 
+    DataType="String"
+    Namespace="Cookbook"
+    EvaluateAsExpression="true">
+    (DT_WSTR, 4) YEAR(@[System::StartTime])
+    </Variable>

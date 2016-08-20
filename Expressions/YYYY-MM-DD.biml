@@ -1,0 +1,7 @@
+<Variable 
+    Name="YYYYMMDD" 
+    DataType="String"
+    Namespace="Cookbook"
+    EvaluateAsExpression="true">@[Cookbook::YYYY] + "-" + @[Cookbook::MM] + "-" + @[Cookbook::DD]</Variable>
+
+
