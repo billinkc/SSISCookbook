@@ -39,7 +39,7 @@ The ``right'' answer is neither---we should instead track data loads through an 
 \label{sec:YYYY}
 This expression defines how to get a 4 digit year. This is sometimes referred to as CCYY (century, century, year, year). The expression simply applies the \verb|YEAR()| function to a variable which returns an integer value. 
 
-\lstinputlisting[language=SSIS]{Expressions/YYYY.exp}
+\lstinputlisting[language=XML]{Expressions/YYYY.exp}
 
 To make use of it, it's been my experience that we will be using this value for string concatenation instead of mathematical operations: addition, subtraction, etc. Therefore, we explicitly cast the result of the \verb|YEAR()| as a unicode string, \verb|DT_WSTR| of length 4
 
